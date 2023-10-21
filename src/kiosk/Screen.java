@@ -1,7 +1,7 @@
 package kiosk;
 
 import kiosk.item.*;
-import kiosk.validate.InputValidate;
+import kiosk.validate.InputValidator;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -32,7 +32,7 @@ public class Screen {
         System.out.println(ORDER_CANCEL_NUMBER + ". Cancel\t | 진행중인 주문을 취소합니다.");
 
         int mainMenuNumber = Integer.parseInt(br.readLine());
-        InputValidate.mainMenuValidate(mainMenuNumber);
+        InputValidator.validateMainMenu(mainMenuNumber);
 
         return mainMenuNumber;
     }
@@ -48,7 +48,7 @@ public class Screen {
         }
 
         int itemMenuNumber = Integer.parseInt(br.readLine());
-        InputValidate.itemMenuValidate(itemMenuNumber, itemList.size());
+        InputValidator.validateItemMenu(itemMenuNumber, itemList.size());
 
         Item selectedItem = itemList.get(itemMenuNumber - 1);
 
@@ -72,7 +72,7 @@ public class Screen {
         System.out.println("1. 주문 \t 2. 메뉴판 ");
 
         int orderConfirmMenuNumber = Integer.parseInt(br.readLine());
-        InputValidate.confirmOrCancelMenuNumberValidate(orderConfirmMenuNumber);
+        InputValidator.validateConfirmOrCancelMenuNumber(orderConfirmMenuNumber);
 
         return orderConfirmMenuNumber;
     }
@@ -102,7 +102,7 @@ public class Screen {
         }
 
         int selectOptionNumber = Integer.parseInt(br.readLine());
-        InputValidate.selectOptionValidate(selectOptionNumber, categoryName, itemList.size());
+        InputValidator.validateSelectOption(selectOptionNumber, itemList.size());
 
         return itemList.get(selectOptionNumber - 1);
     }
@@ -113,7 +113,7 @@ public class Screen {
         System.out.println("1. 확인\t 2. 취소");
 
         int buyMenuNumber = Integer.parseInt(br.readLine());
-        InputValidate.confirmOrCancelMenuNumberValidate(buyMenuNumber);
+        InputValidator.validateConfirmOrCancelMenuNumber(buyMenuNumber);
 
         return buyMenuNumber;
     }
@@ -128,7 +128,7 @@ public class Screen {
         System.out.println("1. 확인\t 2. 취소");
 
         int orderCancelMenuNumber = Integer.parseInt(br.readLine());
-        InputValidate.confirmOrCancelMenuNumberValidate(orderCancelMenuNumber);
+        InputValidator.validateConfirmOrCancelMenuNumber(orderCancelMenuNumber);
 
         return orderCancelMenuNumber;
     }

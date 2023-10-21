@@ -8,7 +8,8 @@ import java.util.List;
 import static kiosk.Category.getCategoryNameByMenuNumber;
 import static kiosk.constant.Constant.*;
 import static kiosk.database.KioskDatabase.*;
-
+import static kiosk.error.ErrorMessage.EMPTY_ORDER_PRODUCT;
+import static kiosk.error.ErrorMessage.WRONG_MENU_NUMBER;
 
 public class Main {
 
@@ -45,7 +46,7 @@ public class Main {
                 List<Item> itemList = getItemListByItemName(itemName);
 
                 Item item = itemList.get(0);
-                if (HasOptionCategory(categoryName)) {
+                if (hasOptionCategory(categoryName)) {
                     try {
                         item = Screen.selectOptionMenuScreen(itemList, categoryName);
                     } catch (IllegalArgumentException e) {
@@ -124,7 +125,7 @@ public class Main {
         return menuNumber >= ITEM_MENU_START_NUM && menuNumber <= ITEM_MENU_END_NUM;
     }
 
-    private static boolean HasOptionCategory(String categoryName) {
+    private static boolean hasOptionCategory(String categoryName) {
         return Category.BURGERS.getName().equals(categoryName) || Category.DRINKS.getName().equals(categoryName);
     }
 
