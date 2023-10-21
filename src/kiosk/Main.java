@@ -2,9 +2,7 @@ package kiosk;
 
 import kiosk.item.Item;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.List;
 
 import static kiosk.Category.getCategoryNameByMenuNumber;
@@ -16,7 +14,6 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         Order order = Order.initialOrder();
 
         while (true) {
@@ -115,6 +112,7 @@ public class Main {
                         order = Order.initialOrder();
                     }
                 } else {
+                    // 총 판매 금액 및 판매 목록 조회 화면
                     Screen.totalOrderItemsScreen();
                 }
             }
