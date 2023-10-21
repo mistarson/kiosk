@@ -61,10 +61,10 @@ public class Screen {
     public static int orderMenuScreen(Order order) throws IOException {
         System.out.println("아래와 같이 주문 하시겠습니까?\n");
 
-        List<Item> orderProductList = order.getOrderItemList();
+        List<OrderItem> orderItemList = order.getOrderItemList();
         System.out.println("[ Orders ]\n");
-        for (Item product : orderProductList) {
-            System.out.println(product.getName() + "\t | W " + product.getPrice() + " |\t" + product.getDescription());
+        for (OrderItem orderItem : orderItemList) {
+            System.out.println(orderItem.getName() + "\t| W " + orderItem.getPrice() + "| " + orderItem.getCount() + "개 |\t" + orderItem.getDescription());
         }
         System.out.println("[ Total ]");
         System.out.println("W " + order.getTotalPrice() + "\n");

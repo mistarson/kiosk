@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Order {
 
-    private List<Item> orderItemList = new ArrayList<>();
+    private List<OrderItem> orderItemList = new ArrayList<>();
 
     private boolean isCanceled = false;
 
@@ -20,7 +20,7 @@ public class Order {
         return new Order();
     }
 
-    public List<Item> getOrderItemList() {
+    public List<OrderItem> getOrderItemList() {
         return orderItemList;
     }
 
@@ -28,9 +28,22 @@ public class Order {
         return totalPrice;
     }
 
-    public void addOrderItem(Item item) {
-        orderItemList.add(item);
-        totalPrice += item.getPrice();
+    public void addOrderItem(OrderItem newOrderItem) {
+
+        boolean existSameItem = false;
+        for (OrderItem orderItem : orderItemList) {
+            if (newOrderItem.equals(orderItem)) {
+                existSameItem = true;
+                orderItem.addCount();
+                break;
+            }
+        }
+
+        if (!existSameItem) {
+            orderItemList.add(newOrderItem);
+        }
+
+        totalPrice += newOrderItem.getPrice();
     }
 
     public void cancelOrder() {

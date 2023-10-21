@@ -67,7 +67,8 @@ public class Main {
                 }
 
                 if (buyMenuNumber == CONFIRM) {
-                    order.addOrderItem(item);
+
+                    order.addOrderItem(OrderItem.from(item));
 
                     Screen.buyCompletedScreen(item.getName());
                 }
