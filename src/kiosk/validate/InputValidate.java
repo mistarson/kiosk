@@ -1,76 +1,47 @@
 package kiosk.validate;
 
-import kiosk.KioskDatabase;
-
 import static kiosk.constant.Constant.*;
 
 public class InputValidate {
 
-    public static void mainMenuValidate(String menuNumberStr) throws IllegalArgumentException {
-
-        int menuNumber = Integer.parseInt(menuNumberStr); // NumberFormatException 예상
-        rightMenuNumberValidate(menuNumber);
-
-    }
-
-    public static void itemMenuValidate(String productMenuNumberStr, String categoryName) throws IllegalArgumentException {
-
-        int productMenuNumber = Integer.parseInt(productMenuNumberStr);
-        rightItemMenuNumberValidate(productMenuNumber, categoryName);
-
-    }
-
-    public static void buyMenuValidate(String buyMenuNumberStr) throws IllegalArgumentException {
-
-        int buyMenuNumber = Integer.parseInt(buyMenuNumberStr);
-        rightBuyMenuNumber(buyMenuNumber);
-
-    }
-
-    public static void orderConfirmMenuNumberValidate(String orderConfirmMenuNumberStr) {
-
-        int orderConfirmMenuNumber = Integer.parseInt(orderConfirmMenuNumberStr);
-        rightOrderConfirmMenuNumber(orderConfirmMenuNumber);
-    }
-
-    public static void orderCancelMenuNumberValidate(String orderCancelMenuNumberStr) {
-
-        int orderCancelMenuNumber = Integer.parseInt(orderCancelMenuNumberStr);
-        rightOrderCancelMenuNumber(orderCancelMenuNumber);
-    }
-
-    private static void rightMenuNumberValidate(int menuNumber) {
-        if (!(menuNumber >= MENU_START_NUM && menuNumber <= MENU_END_NUM)) {
+    public static void mainMenuValidate(int mainMenuNumber) throws IllegalArgumentException {
+        if (!(mainMenuNumber >= MENU_START_NUM && mainMenuNumber <= MENU_END_NUM)) {
             throw new IllegalArgumentException();
         }
     }
 
-    private static void rightItemMenuNumberValidate(int productMenuNumber, String categoryName) {
-        int productListSize = KioskDatabase.getItemListSizeByCategory(categoryName);
-
-        if (!(productMenuNumber >= 1 && productMenuNumber <= productListSize)) {
-            throw new IllegalArgumentException();
-        }
-
-    }
-
-    private static void rightBuyMenuNumber(int buyMenuNumber) {
-        if (!(buyMenuNumber == CONFIRM || buyMenuNumber == CANCEL)) {
-            throw new IllegalArgumentException();
-        }
-
-    }
-
-    private static void rightOrderConfirmMenuNumber(int orderConfirmMenuNumber) {
-        if (!(orderConfirmMenuNumber == CONFIRM || orderConfirmMenuNumber == CANCEL)) {
+    public static void itemMenuValidate(int itemMenuNumber, int itemListSize) throws IllegalArgumentException {
+        if (!(itemMenuNumber >= 1 && itemMenuNumber <= itemListSize)) {
             throw new IllegalArgumentException();
         }
     }
 
-    private static void rightOrderCancelMenuNumber(int orderCancelMenuNumber) {
-        if (!(orderCancelMenuNumber == CONFIRM || orderCancelMenuNumber == CANCEL)) {
+    public static void confirmOrCancelMenuNumberValidate(int menuNumber) throws IllegalArgumentException {
+        if (!(menuNumber == CONFIRM || menuNumber == CANCEL)) {
             throw new IllegalArgumentException();
         }
     }
 
+    public static void selectOptionValidate(int selectOptionNumber, String categoryName, int optionsCnt) throws IllegalArgumentException {
+
+        switch (categoryName) {
+            case "Burgers" -> BurgersSelectOptionNumberValidate(selectOptionNumber, optionsCnt);
+
+            case "Drinks" -> DrinksSelectOptionNumberValidate(selectOptionNumber, optionsCnt);
+
+            default -> throw new IllegalArgumentException();
+        }
+    }
+
+    private static void BurgersSelectOptionNumberValidate(int selectOptionNumber, int optionsCnt) {
+        if (!(selectOptionNumber >= 1 && selectOptionNumber <= optionsCnt)) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private static void DrinksSelectOptionNumberValidate(int selectOptionNumber, int optionsCnt) {
+        if (!(selectOptionNumber >= 1 && selectOptionNumber <= optionsCnt)) {
+            throw new IllegalArgumentException();
+        }
+    }
 }

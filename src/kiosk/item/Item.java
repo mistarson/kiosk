@@ -1,4 +1,7 @@
-package kiosk;
+package kiosk.item;
+
+import kiosk.Category;
+import kiosk.Menu;
 
 public class Item extends Menu {
 

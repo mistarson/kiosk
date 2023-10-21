@@ -1,81 +1,81 @@
 package kiosk;
 
-import kiosk.validate.InputValidate;
+import kiosk.item.Item;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 
-import static kiosk.Category.CATEGORY_SIZE;
 import static kiosk.Category.getCategoryNameByMenuNumber;
 import static kiosk.constant.Constant.*;
-import static kiosk.KioskDatabase.getItemByItemMenuNumber;
-import static kiosk.KioskDatabase.ordersDB;
+import static kiosk.database.KioskDatabase.*;
 
 
 public class Main {
-
 
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         Order order = Order.initialOrder();
 
-
         while (true) {
+
             // 메인 메뉴 화면
-            Screen.mainMenuScreen();
-
-            String menuNumberStr = br.readLine();
-
             // TODO try-catch 중복 코드 해결하기
+            int mainMenuNumber;
             try {
-                InputValidate.mainMenuValidate(menuNumberStr);
+                mainMenuNumber = Screen.mainMenuScreen();
             } catch (IllegalArgumentException e) {
                 System.out.println(WRONG_MENU_NUMBER + "\n");
                 continue;
             }
 
-            int menuNumber = Integer.parseInt(menuNumberStr);
-            if (isProductMenuNumber(menuNumber)) {
-                String categoryName = getCategoryNameByMenuNumber(menuNumber);
+            if (isItemMenuNumber(mainMenuNumber)) {
+                String categoryName = getCategoryNameByMenuNumber(mainMenuNumber);
+                List<Item> ItemListByCategoryNameLimit1 = getItemListByCategoryNameLimit1(categoryName);
 
                 // 상품 메뉴 화면
-                Screen.itemMenuScreen(categoryName);
-
-                String itemMenuNumberStr = br.readLine();
+                String itemName;
                 try {
-                    InputValidate.itemMenuValidate(itemMenuNumberStr, categoryName);
+                    itemName = Screen.itemMenuScreen(categoryName, ItemListByCategoryNameLimit1);
                 } catch (IllegalArgumentException e) {
                     System.out.println(WRONG_MENU_NUMBER + "\n");
                     continue;
                 }
 
-                int itemMenuNumber = Integer.parseInt(itemMenuNumberStr);
-                Item product = getItemByItemMenuNumber(itemMenuNumber, categoryName);
+                // 옵션으로 선택하기
+                List<Item> itemList = getItemListByItemName(itemName);
+
+                Item item = itemList.get(0);
+                if (HasOptionCategory(categoryName)) {
+                    try {
+                        item = Screen.selectOptionMenuScreen(itemList, categoryName);
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(WRONG_MENU_NUMBER + "\n");
+                        continue;
+                    }
+                }
 
                 // 구매 화면
-                Screen.buyMenuScreen(product);
-
-                String buyMenuNumberStr = br.readLine();
+                int buyMenuNumber;
                 try {
-                    InputValidate.buyMenuValidate(buyMenuNumberStr);
+                    buyMenuNumber = Screen.buyMenuScreen(item);
                 } catch (IllegalArgumentException e) {
                     System.out.println(WRONG_MENU_NUMBER + "\n");
                     continue;
                 }
 
-                int buyMenuNumber = Integer.parseInt(buyMenuNumberStr);
                 if (buyMenuNumber == CONFIRM) {
-                    order.addOrderItem(product);
+                    order.addOrderItem(item);
 
-                    Screen.buyCompletedScreen(product.getName());
+                    Screen.buyCompletedScreen(item.getName());
                 }
             }
 
             // 주문 관련 메뉴
             else {
-                if (menuNumber == ORDER_MENU_NUMBER) {
+                if (mainMenuNumber == ORDER_MENU_NUMBER) {
 
                     if (order.isOrderItemListEmpty()) {
                         System.out.println(EMPTY_ORDER_PRODUCT + "\n");
@@ -83,17 +83,14 @@ public class Main {
                     }
 
                     // 주문 화면
-                    Screen.orderMenuScreen(order);
-
-                    String orderConfirmMenuNumberStr = br.readLine();
+                    int orderConfirmMenuNumber;
                     try {
-                        InputValidate.orderConfirmMenuNumberValidate(orderConfirmMenuNumberStr);
+                        orderConfirmMenuNumber = Screen.orderMenuScreen(order);
                     } catch (IllegalArgumentException e) {
                         System.out.println(WRONG_MENU_NUMBER + "\n");
                         continue;
                     }
 
-                    int orderConfirmMenuNumber = Integer.parseInt(orderConfirmMenuNumberStr);
                     if (orderConfirmMenuNumber == CONFIRM) {
                         Screen.orderCompletedScreen();
                         ordersDB.add(order);
@@ -102,18 +99,14 @@ public class Main {
 
                 } else {
                     // 주문 취소 화면
-                    // TODO 별도 취소, 전체 취소 구현하기
-                    Screen.orderCancelScreen();
-
-                    String orderCancelMenuNumberStr = br.readLine();
+                    int orderCancelMenuNumber;
                     try {
-                        InputValidate.orderCancelMenuNumberValidate(orderCancelMenuNumberStr);
+                        orderCancelMenuNumber = Screen.orderCancelScreen();
                     } catch (IllegalArgumentException e) {
                         System.out.println(WRONG_MENU_NUMBER + "\n");
                         continue;
                     }
 
-                    int orderCancelMenuNumber = Integer.parseInt(orderCancelMenuNumberStr);
                     if (orderCancelMenuNumber == CONFIRM) {
                         Screen.orderCancelCompletedScreen();
                         order.cancelOrder();
@@ -126,8 +119,12 @@ public class Main {
     }
 
 
-    private static boolean isProductMenuNumber(int menuNumber) {
-        return menuNumber >= MENU_START_NUM && menuNumber <= CATEGORY_SIZE;
+    private static boolean isItemMenuNumber(int menuNumber) {
+        return menuNumber >= ITEM_MENU_START_NUM && menuNumber <= ITEM_MENU_END_NUM;
+    }
+
+    private static boolean HasOptionCategory(String categoryName) {
+        return Category.BURGERS.getName().equals(categoryName) || Category.DRINKS.getName().equals(categoryName);
     }
 
 }

@@ -1,5 +1,7 @@
 package kiosk;
 
+import kiosk.item.Item;
+
 import java.util.ArrayList;
 import java.util.List;
 
