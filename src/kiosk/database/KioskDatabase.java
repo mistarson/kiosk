@@ -110,4 +110,8 @@ public class KioskDatabase {
                 .collect(Collectors.toList());
     }
 
+    public static int getTotalPrice() {
+        return ordersDB.stream().mapToInt(Order::getTotalPrice).sum();
+    }
+
 }

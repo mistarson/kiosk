@@ -98,7 +98,7 @@ public class Main {
                         order = Order.initialOrder();
                     }
 
-                } else {
+                } else if (mainMenuNumber == ORDER_CANCEL_NUMBER) {
                     // 주문 취소 화면
                     int orderCancelMenuNumber;
                     try {
@@ -114,6 +114,8 @@ public class Main {
                         ordersDB.add(order);
                         order = Order.initialOrder();
                     }
+                } else {
+                    Screen.totalOrderItemsScreen();
                 }
             }
         }

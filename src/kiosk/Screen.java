@@ -11,6 +11,7 @@ import java.util.List;
 import static kiosk.Category.values;
 import static kiosk.constant.Constant.ORDER_CANCEL_NUMBER;
 import static kiosk.constant.Constant.ORDER_MENU_NUMBER;
+import static kiosk.database.KioskDatabase.getTotalPrice;
 import static kiosk.database.KioskDatabase.ordersDB;
 
 public class Screen {
@@ -62,7 +63,7 @@ public class Screen {
         System.out.println("아래와 같이 주문 하시겠습니까?\n");
 
         List<OrderItem> orderItemList = order.getOrderItemList();
-        System.out.println("[ Orders ]\n");
+        System.out.println("[ Orders ]");
         for (OrderItem orderItem : orderItemList) {
             System.out.println(orderItem.getName() + "\t| W " + orderItem.getPrice() + "| " + orderItem.getCount() + "개 |\t" + orderItem.getDescription());
         }
@@ -134,5 +135,20 @@ public class Screen {
 
     public static void orderCancelCompletedScreen() {
         System.out.println("주문이 취소되었습니다.\n");
+    }
+
+    public static void totalOrderItemsScreen() throws IOException, IllegalArgumentException{
+
+        int totalPrice = getTotalPrice();
+
+        System.out.println("[ 총 판매금액 현황 ]");
+        System.out.println("현재까지 총 판매된 금액은 [ W " + totalPrice + " ] 이며 판매된 상품 목록은 아래와 같습니다.\n");
+
+        ordersDB.stream()
+                .flatMap(order -> order.getOrderItemList().stream())
+                .forEach(orderItem -> System.out.println("- " + orderItem.getName() + "\t W " + orderItem.getPrice()));
+
+        System.out.println("돌아가려면 아무 키나 누르세요.");
+        br.readLine();
     }
 }
