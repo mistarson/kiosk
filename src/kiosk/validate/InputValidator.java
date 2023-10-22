@@ -23,10 +23,6 @@ public class InputValidator {
     }
 
     public static void validateSelectOption(int selectOptionNumber, int optionsCnt) {
-        validateSelectOptionNumber(selectOptionNumber, optionsCnt);
-    }
-
-    private static void validateSelectOptionNumber(int selectOptionNumber, int optionsCnt) {
         if (!(selectOptionNumber >= 1 && selectOptionNumber <= optionsCnt)) {
             throw new IllegalArgumentException();
         }
