@@ -137,7 +137,7 @@ public class Screen {
         System.out.println("주문이 취소되었습니다.\n");
     }
 
-    public static void totalOrderItemsScreen() throws IOException, IllegalArgumentException{
+    public static void totalOrderItemsScreen() throws IOException {
 
         int totalPrice = getTotalPrice();
 
