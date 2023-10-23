@@ -1,4 +1,4 @@
-package kiosk;
+package kiosk.domain.menu;
 
 import java.util.Collections;
 import java.util.Map;

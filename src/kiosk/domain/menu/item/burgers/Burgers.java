@@ -1,8 +1,9 @@
-package kiosk.item;
+package kiosk.domain.menu.item.burgers;
 
-import kiosk.Category;
+import kiosk.domain.menu.Category;
+import kiosk.domain.menu.item.Item;
 
-public class Burgers extends Item{
+public class Burgers extends Item {
 
     private BurgersSize burgersSize;
 

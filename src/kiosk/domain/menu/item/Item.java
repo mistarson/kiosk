@@ -1,7 +1,7 @@
-package kiosk.item;
+package kiosk.domain.menu.item;
 
-import kiosk.Category;
-import kiosk.Menu;
+import kiosk.domain.menu.Category;
+import kiosk.domain.menu.Menu;
 
 public class Item extends Menu {
 

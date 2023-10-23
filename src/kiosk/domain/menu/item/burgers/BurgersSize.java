@@ -1,4 +1,4 @@
-package kiosk.item;
+package kiosk.domain.menu.item.burgers;
 
 import java.util.Collections;
 import java.util.Map;

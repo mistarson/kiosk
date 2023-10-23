@@ -1,6 +1,6 @@
-package kiosk;
+package kiosk.domain.orderItem;
 
-import kiosk.item.Item;
+import kiosk.domain.menu.item.Item;
 
 import java.util.Objects;
 

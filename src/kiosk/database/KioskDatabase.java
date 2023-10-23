@@ -1,12 +1,16 @@
 package kiosk.database;
 
-import kiosk.Category;
-import kiosk.Order;
-import kiosk.item.*;
+import kiosk.domain.menu.Category;
+import kiosk.domain.order.Order;
+import kiosk.domain.menu.item.burgers.Burgers;
+import kiosk.domain.menu.item.burgers.BurgersSize;
+import kiosk.domain.menu.item.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import kiosk.domain.menu.item.drinks.Drinks;
+import kiosk.domain.menu.item.drinks.DrinksSize;
 
 public class KioskDatabase {
 

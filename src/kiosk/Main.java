@@ -1,11 +1,14 @@
 package kiosk;
 
-import kiosk.item.Item;
+import kiosk.domain.menu.Category;
+import kiosk.domain.menu.item.Item;
 
 import java.io.IOException;
 import java.util.List;
+import kiosk.domain.order.Order;
+import kiosk.domain.orderItem.OrderItem;
 
-import static kiosk.Category.getCategoryNameByMenuNumber;
+import static kiosk.domain.menu.Category.getCategoryNameByMenuNumber;
 import static kiosk.constant.Constant.*;
 import static kiosk.database.KioskDatabase.*;
 import static kiosk.error.ErrorMessage.EMPTY_ORDER_PRODUCT;
@@ -18,6 +21,7 @@ public class Main {
         Order order = Order.initialOrder();
 
         while (true) {
+
 
             // 메인 메뉴 화면
             // TODO try-catch 중복 코드 해결하기

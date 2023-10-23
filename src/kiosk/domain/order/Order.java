@@ -1,7 +1,8 @@
-package kiosk;
+package kiosk.domain.order;
 
 import java.util.ArrayList;
 import java.util.List;
+import kiosk.domain.orderItem.OrderItem;
 
 public class Order {
 

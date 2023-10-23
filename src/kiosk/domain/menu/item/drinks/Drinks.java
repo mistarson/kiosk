@@ -1,6 +1,7 @@
-package kiosk.item;
+package kiosk.domain.menu.item.drinks;
 
-import kiosk.Category;
+import kiosk.domain.menu.Category;
+import kiosk.domain.menu.item.Item;
 
 public class Drinks extends Item {
 

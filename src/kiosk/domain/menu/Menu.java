@@ -1,4 +1,4 @@
-package kiosk;
+package kiosk.domain.menu;
 
 public class Menu {
 

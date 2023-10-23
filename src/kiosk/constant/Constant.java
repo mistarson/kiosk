@@ -1,6 +1,6 @@
 package kiosk.constant;
 
-import static kiosk.Category.CATEGORY_SIZE;
+import static kiosk.domain.menu.Category.CATEGORY_SIZE;
 
 public class Constant {
 

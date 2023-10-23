@@ -1,6 +1,13 @@
 package kiosk;
 
-import kiosk.item.*;
+import kiosk.domain.menu.Category;
+import kiosk.domain.menu.item.burgers.Burgers;
+import kiosk.domain.menu.item.burgers.BurgersSize;
+import kiosk.domain.menu.item.*;
+import kiosk.domain.menu.item.drinks.Drinks;
+import kiosk.domain.menu.item.drinks.DrinksSize;
+import kiosk.domain.order.Order;
+import kiosk.domain.orderItem.OrderItem;
 import kiosk.validate.InputValidator;
 
 import java.io.BufferedReader;
@@ -8,7 +15,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
-import static kiosk.Category.values;
+import static kiosk.domain.menu.Category.values;
 import static kiosk.constant.Constant.ORDER_CANCEL_NUMBER;
 import static kiosk.constant.Constant.ORDER_MENU_NUMBER;
 import static kiosk.database.KioskDatabase.getTotalPrice;
