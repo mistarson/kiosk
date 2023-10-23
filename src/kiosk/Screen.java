@@ -1,31 +1,32 @@
 package kiosk;
 
+import static kiosk.constant.Constant.ORDER_CANCEL_NUMBER;
+import static kiosk.constant.Constant.ORDER_MENU_NUMBER;
+import static kiosk.database.KioskDatabase.getAllOrderItemList;
+import static kiosk.database.KioskDatabase.getOrderDBSize;
+import static kiosk.database.KioskDatabase.getTotalPrice;
+import static kiosk.domain.menu.Category.values;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.List;
 import kiosk.domain.menu.Category;
+import kiosk.domain.menu.item.Item;
 import kiosk.domain.menu.item.burgers.Burgers;
 import kiosk.domain.menu.item.burgers.BurgersSize;
-import kiosk.domain.menu.item.*;
 import kiosk.domain.menu.item.drinks.Drinks;
 import kiosk.domain.menu.item.drinks.DrinksSize;
 import kiosk.domain.order.Order;
 import kiosk.domain.orderItem.OrderItem;
 import kiosk.validate.InputValidator;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.List;
-
-import static kiosk.domain.menu.Category.values;
-import static kiosk.constant.Constant.ORDER_CANCEL_NUMBER;
-import static kiosk.constant.Constant.ORDER_MENU_NUMBER;
-import static kiosk.database.KioskDatabase.getTotalPrice;
-import static kiosk.database.KioskDatabase.ordersDB;
-
 public class Screen {
 
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
     public static int mainMenuScreen() throws IOException {
+
         System.out.println("SHAKESHACK BURGER 에 오신걸 환영합니다.");
         System.out.println("아래 메뉴판을 보시고 메뉴를 골라 입력해주세요.");
         System.out.println("\n [ SHAKESHACK MENU ] ");
@@ -45,6 +46,7 @@ public class Screen {
     }
 
     public static String itemMenuScreen(String categoryName, List<Item> itemList) throws IOException {
+
         System.out.println("SHAKESHACK BURGER 에 오신걸 환영합니다.");
         System.out.println("아래 상품메뉴판을 보시고 상품을 골라 입력해주세요.");
         System.out.println("\n[ " + categoryName + " MENU ]");
@@ -67,12 +69,15 @@ public class Screen {
     }
 
     public static int orderMenuScreen(Order order) throws IOException {
+
         System.out.println("아래와 같이 주문 하시겠습니까?\n");
 
         List<OrderItem> orderItemList = order.getOrderItemList();
         System.out.println("[ Orders ]");
         for (OrderItem orderItem : orderItemList) {
-            System.out.println(orderItem.getName() + "\t| W " + orderItem.getPrice() + "| " + orderItem.getCount() + "개 |\t" + orderItem.getDescription());
+            System.out.println(
+                    orderItem.getName() + "\t| W " + orderItem.getPrice() + "| " + orderItem.getCount() + "개 |\t"
+                            + orderItem.getDescription());
         }
         System.out.println("[ Total ]");
         System.out.println("W " + order.getTotalPrice() + "\n");
@@ -85,6 +90,7 @@ public class Screen {
     }
 
     public static Item selectOptionMenuScreen(List<Item> itemList, String categoryName) throws IOException {
+
         Item firstItem = itemList.get(0);
         System.out.println(firstItem.getName() + "\t| W " + firstItem.getPrice() +
                 " | " + firstItem.getDescription());
@@ -95,14 +101,16 @@ public class Screen {
                 for (Item item : itemList) {
                     Burgers burger = (Burgers) item;
                     BurgersSize burgersSize = burger.getBurgersSize();
-                    System.out.print(burgersSize.getValue() + ". " + burgersSize.getName() + "(W " + burger.getPrice() + ")\t");
+                    System.out.print(
+                            burgersSize.getValue() + ". " + burgersSize.getName() + "(W " + burger.getPrice() + ")\t");
                 }
             }
             case "Drinks" -> {
                 for (Item item : itemList) {
                     Drinks drink = (Drinks) item;
                     DrinksSize drinksSize = drink.getDrinksSize();
-                    System.out.print(drinksSize.getValue() + ". " + drinksSize.getName() + "(W " + drink.getPrice() + ")\t");
+                    System.out.print(
+                            drinksSize.getValue() + ". " + drinksSize.getName() + "(W " + drink.getPrice() + ")\t");
                 }
             }
             default -> throw new IllegalArgumentException();
@@ -115,6 +123,7 @@ public class Screen {
     }
 
     public static int buyMenuScreen(Item item) throws IOException {
+
         System.out.println(item.getName() + "\t| W " + item.getPrice() + " | " + item.getDescription());
         System.out.println("위 메뉴의 장바구니에 추가하시겠습니까?");
         System.out.println("1. 확인\t 2. 취소");
@@ -126,11 +135,15 @@ public class Screen {
     }
 
     public static void orderCompletedScreen() {
+
+        int orderDBSize = getOrderDBSize();
+
         System.out.println("주문이 완료되었습니다!\n");
-        System.out.println("대기번호는 [ " + ordersDB.size() + 1 + " ] 번 입니다.");
+        System.out.println("대기번호는 [ " + orderDBSize + 1 + " ] 번 입니다.");
     }
 
     public static int orderCancelScreen() throws IOException {
+
         System.out.println("진행하던 주문을 취소하시겠습니까?");
         System.out.println("1. 확인\t 2. 취소");
 
@@ -151,9 +164,10 @@ public class Screen {
         System.out.println("[ 총 판매금액 현황 ]");
         System.out.println("현재까지 총 판매된 금액은 [ W " + totalPrice + " ] 이며 판매된 상품 목록은 아래와 같습니다.\n");
 
-        ordersDB.stream()
-                .flatMap(order -> order.getOrderItemList().stream())
-                .forEach(orderItem -> System.out.println("- " + orderItem.getName() + "\t W " + orderItem.getPrice()));
+        List<OrderItem> orderItemList = getAllOrderItemList();
+
+        orderItemList.forEach(
+                orderItem -> System.out.println("- " + orderItem.getName() + "\t W " + orderItem.getPrice()));
 
         System.out.println("돌아가려면 아무 키나 누르세요.");
         br.readLine();

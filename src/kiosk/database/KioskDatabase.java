@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import kiosk.domain.menu.item.drinks.Drinks;
 import kiosk.domain.menu.item.drinks.DrinksSize;
+import kiosk.domain.orderItem.OrderItem;
 
 public class KioskDatabase {
 
@@ -118,4 +119,13 @@ public class KioskDatabase {
         return ordersDB.stream().mapToInt(Order::getTotalPrice).sum();
     }
 
+    public static int getOrderDBSize() {
+        return ordersDB.size();
+    }
+
+    public static List<OrderItem> getAllOrderItemList() {
+        return ordersDB.stream()
+                .flatMap(order -> order.getOrderItemList().stream())
+                .collect(Collectors.toList());
+    }
 }
